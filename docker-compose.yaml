@@ -1,0 +1,187 @@
+version: "3"
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - dev  
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    networks:
+      - dev
+
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: devto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db-devto:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - dev
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-devto:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - dev
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+    networks:
+      - dev
+
+  # collector:
+  #   container_name: collector
+  #   image: otel/opentelemetry-collector:latest
+  #   volumes:
+  #     - ./opentelemetry/otel-colector.yaml:/etc/otel/config.yaml
+  #   command:
+  #     [
+  #       "--config=/etc/otel/config.yaml",
+  #     ]
+  #   ports:
+  #     - "4317:4317"     # grpc
+  #     - "13133:13133"   # health
+  #     - "8006:8006"     # fluentdforward
+  #     - "8006:8006/udp" # fluentforward
+  #   networks:
+  #     - dev
+
+  order-service:
+    container_name: order-service
+    build:
+      context: "./microservices/order-service"
+      dockerfile: Dockerfile.dev
+    depends_on: 
+      - postgres
+    volumes:
+      - ./microservices/order-service:/api
+      - ./microservices/order-service/tests:/api/tests
+      - ./microservices/order-service/logs:/var/log
+      # - ./config/env:/tmp/env
+      # - ./config/scripts:/scripts
+      # - ./config/database:/api/database
+      # - ./config/google-storage:/api/google-storage
+      # - ./proto:/proto
+      # - ./config/firebase:/api/firebase
+      # - ./packages:/packages
+    networks:
+      - dev
+
+  # gateway-api:
+  #   container_name: gateway-api
+  #   build:
+  #     context: "./microservices/gateway-api"
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - 3002:3002
+  #   depends_on: 
+  #     - postgres
+  #   volumes:
+  #     - ./microservices/gateway-api:/api
+  #     - ./config/scripts:/scripts
+  #     - ./config/env:/tmp/env
+  #   networks:
+  #     - dev
+
+  # desktop-logs-api:
+  #   container_name: desktop-logs-api
+  #   build:
+  #     context: "./microservices/desktop-logs-api"
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - 3003:3003
+  #   depends_on: 
+  #     - postgres
+  #   volumes:
+  #     - ./microservices/desktop-logs-api:/api
+  #     - ./config/database:/api/database
+  #     - ./config/scripts:/scripts
+  #     - ./config/env:/tmp/env
+  #     - ./packages:/packages
+  #   networks:
+  #     - dev
+
+  # wiki-api:
+  #   container_name: wiki-api
+  #   build:
+  #     context: "./microservices/wiki-api"
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - 3004:3004
+  #   depends_on: 
+  #     - postgres
+  #   volumes:
+  #     - ./microservices/wiki-api:/api
+  #     - ./config/scripts:/scripts
+  #     - ./config/env:/tmp/env
+  #     - ./config/database:/api/database
+  #     - ./config/google-storage:/api/google-storage
+  #     - ./packages:/packages
+  #   networks:
+  #     - dev
+
+  # core-api:
+  #   container_name: core-api
+  #   build:
+  #     context: "./microservices/core-api"
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - 3005:3005
+  #   depends_on: 
+  #     - postgres
+  #   volumes:
+  #     - ./microservices/core-api:/api
+  #     - ./config/scripts:/scripts
+  #     - ./config/env:/tmp/env
+  #     - ./config/database:/api/database
+  #     - ./packages:/packages
+  #   networks:
+  #     - dev
+
+
+
+
+networks: 
+  dev:
+    driver: bridge
+
+volumes:
+  pgadmin-devto:
+  db-devto:

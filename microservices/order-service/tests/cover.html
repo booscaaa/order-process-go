@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>cmd: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/booscaa/order-process-go/microservices/order-service/cmd/cmd/root.go (0.0%)</option>
+				
+				<option value="file1">github.com/booscaa/order-process-go/microservices/order-service/cmd/cmd/serve.go (0.0%)</option>
+				
+				<option value="file2">github.com/booscaa/order-process-go/microservices/order-service/cmd/main.go (0.0%)</option>
+				
+				<option value="file3">github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/database/postgres/postgres.go (0.0%)</option>
+				
+				<option value="file4">github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/http/rest/ordercontroller/create.go (0.0%)</option>
+				
+				<option value="file5">github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/http/rest/ordercontroller/database/orderdbrepository/create.go (0.0%)</option>
+				
+				<option value="file6">github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/http/rest/ordercontroller/database/orderdbrepository/new.go (0.0%)</option>
+				
+				<option value="file7">github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/http/rest/ordercontroller/new.go (0.0%)</option>
+				
+				<option value="file8">github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/kafka/kafka.go (0.0%)</option>
+				
+				<option value="file9">github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/kafka/orderqueuerepository/new.go (0.0%)</option>
+				
+				<option value="file10">github.com/booscaa/order-process-go/microservices/order-service/internal/core/domain/order.go (0.0%)</option>
+				
+				<option value="file11">github.com/booscaa/order-process-go/microservices/order-service/internal/core/usecase/orderusecase/new.go (0.0%)</option>
+				
+				<option value="file12">github.com/booscaa/order-process-go/microservices/order-service/internal/di/order.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">/*
+Copyright © 2024 NAME HERE &lt;EMAIL ADDRESS&gt;
+*/
+package cmd
+
+import (
+        "os"
+
+        "github.com/spf13/cobra"
+)
+
+// rootCmd represents the base command when called without any subcommands
+var rootCmd = &amp;cobra.Command{
+        Use:   "microservices",
+        Short: "A brief description of your application",
+        Long: `A longer description that spans multiple lines and likely contains
+examples and usage of using your application. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
+        // Uncomment the following line if your bare application
+        // has an action associated with it:
+        // Run: func(cmd *cobra.Command, args []string) { },
+}
+
+// Execute adds all child commands to the root command and sets flags appropriately.
+// This is called by main.main(). It only needs to happen once to the rootCmd.
+func Execute() <span class="cov0" title="0">{
+        err := rootCmd.Execute()
+        if err != nil </span><span class="cov0" title="0">{
+                os.Exit(1)
+        }</span>
+}
+
+func init() <span class="cov0" title="0">{
+        // Here you will define your flags and configuration settings.
+        // Cobra supports persistent flags, which, if defined here,
+        // will be global for your application.
+
+        // rootCmd.PersistentFlags().StringVar(&amp;cfgFile, "config", "", "config file (default is $HOME/.microservices.yaml)")
+
+        // Cobra also supports local flags, which will only run
+        // when this action is called directly.
+        rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">/*
+Copyright © 2024 NAME HERE &lt;EMAIL ADDRESS&gt;
+*/
+package cmd
+
+import (
+        "fmt"
+        "net/http"
+
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/database/postgres"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/kafka"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/di"
+        "github.com/spf13/cobra"
+)
+
+// serveCmd represents the serve command
+var serveCmd = &amp;cobra.Command{
+        Use:   "serve",
+        Short: "A brief description of your command",
+        Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
+        Run: func(cmd *cobra.Command, args []string) <span class="cov0" title="0">{
+                fmt.Println("serve called")
+
+                kafkaWriter := kafka.Initialize("kafka:9092")
+                database := postgres.Initialize()
+
+                orderController := di.ConfigOrderDIController(database, kafkaWriter)
+
+                mux := http.NewServeMux()
+                mux.HandleFunc("POST /order", orderController.Create)
+
+                http.ListenAndServe(":3001", mux)
+        }</span>,
+}
+
+func init() <span class="cov0" title="0">{
+        rootCmd.AddCommand(serveCmd)
+
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">/*
+Copyright © 2024 Vinícius Boscardin boscardinvinicius@gmail.com
+*/
+package main
+
+import "github.com/booscaa/order-process-go/microservices/order-service/cmd/cmd"
+
+func main() <span class="cov0" title="0">{
+        cmd.Execute()
+}</span>
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package postgres
+
+import (
+        "context"
+        "fmt"
+        "log"
+        "os"
+        "time"
+
+        "github.com/golang-migrate/migrate/v4"
+        "github.com/jmoiron/sqlx"
+
+        _ "github.com/golang-migrate/migrate/v4/database/postgres" // importa o drive do postgres para rodar as migrations
+        _ "github.com/golang-migrate/migrate/v4/source/file"
+        _ "github.com/newrelic/go-agent/v3/integrations/nrpq"
+)
+
+type DatabaseClientConfig struct {
+        databaseURL     string
+        context         context.Context
+        maxOpenConns    int
+        maxIdleConns    int
+        connMaxLifetime time.Duration
+        runMigrations   bool
+}
+
+type DatabaseOption func(d *DatabaseClientConfig)
+
+func Context(ctx context.Context) DatabaseOption <span class="cov0" title="0">{
+        return func(c *DatabaseClientConfig) </span><span class="cov0" title="0">{
+                c.context = ctx
+        }</span>
+}
+
+func DatabaseURL(url string) DatabaseOption <span class="cov0" title="0">{
+        return func(c *DatabaseClientConfig) </span><span class="cov0" title="0">{
+                c.databaseURL = url
+        }</span>
+}
+
+func SetMaxOpenConns(value int) DatabaseOption <span class="cov0" title="0">{
+        return func(c *DatabaseClientConfig) </span><span class="cov0" title="0">{
+                c.maxOpenConns = value
+        }</span>
+}
+
+func SetMaxIdleConns(value int) DatabaseOption <span class="cov0" title="0">{
+        return func(c *DatabaseClientConfig) </span><span class="cov0" title="0">{
+                c.maxIdleConns = value
+        }</span>
+}
+
+func SetConnMaxLifetime(value time.Duration) DatabaseOption <span class="cov0" title="0">{
+        return func(c *DatabaseClientConfig) </span><span class="cov0" title="0">{
+                c.connMaxLifetime = value
+        }</span>
+}
+
+func RunMigrations(value bool) DatabaseOption <span class="cov0" title="0">{
+        return func(c *DatabaseClientConfig) </span><span class="cov0" title="0">{
+                c.runMigrations = value
+        }</span>
+}
+
+// Initialize retorna um pool de conexões com o banco de dados
+func Initialize(opts ...DatabaseOption) *sqlx.DB <span class="cov0" title="0">{
+        databaseOptions := &amp;DatabaseClientConfig{
+                maxOpenConns:    100,
+                maxIdleConns:    10,
+                connMaxLifetime: 0,
+                runMigrations:   true,
+        }
+        for _, opt := range opts </span><span class="cov0" title="0">{
+                opt(databaseOptions)
+        }</span>
+
+        <span class="cov0" title="0">db, err := sqlx.ConnectContext(databaseOptions.context, "nrpostgres", databaseOptions.databaseURL)
+
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+                os.Exit(1)
+        }</span>
+
+        <span class="cov0" title="0">db.DB.SetMaxOpenConns(databaseOptions.maxOpenConns)
+        db.DB.SetMaxIdleConns(databaseOptions.maxIdleConns)
+        db.DB.SetConnMaxLifetime(databaseOptions.connMaxLifetime)
+
+        if databaseOptions.runMigrations </span><span class="cov0" title="0">{
+                runMigrations(databaseOptions.databaseURL)
+        }</span>
+
+        <span class="cov0" title="0">return db</span>
+}
+
+func runMigrations(databaseURL string) <span class="cov0" title="0">{
+        m, err := migrate.New("file://database/migrations", databaseURL)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println(err)
+        }</span>
+
+        <span class="cov0" title="0">if err := m.Up(); err != nil </span><span class="cov0" title="0">{
+                log.Println(err)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package ordercontroller
+
+import (
+        "encoding/json"
+        "net/http"
+
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/dto"
+)
+
+// Create implements domain.OrderController.
+func (controller *controller) Create(response http.ResponseWriter, request *http.Request) <span class="cov0" title="0">{
+        var orderInput dto.OrderInput
+
+        err := json.NewDecoder(request.Body).Decode(&amp;orderInput)
+        if err != nil </span><span class="cov0" title="0">{
+                response.WriteHeader(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov0" title="0">order, err := controller.usecase.Create(request.Context(), orderInput)
+        if err != nil </span><span class="cov0" title="0">{
+                response.WriteHeader(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov0" title="0">json.NewEncoder(response).Encode(&amp;order)</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package orderdbrepository
+
+import (
+        "context"
+
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/domain"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/dto"
+)
+
+// Create implements domain.OrderDBRepository.
+func (repository *repository) Create(ctx context.Context, orderInput dto.OrderInput) (*domain.Order, error) <span class="cov0" title="0">{
+        query := `INSERT INTO order (product_id, qtt) VALUES ($1, $2) returning *;`
+
+        orderCreated := domain.Order{}
+
+        err := repository.database.QueryRowx(
+                query,
+                orderInput.ProductID,
+                orderInput.QTT,
+        ).StructScan(&amp;orderCreated)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return &amp;orderCreated, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package orderdbrepository
+
+import (
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/domain"
+
+        "github.com/jmoiron/sqlx"
+)
+
+type repository struct {
+        database *sqlx.DB
+}
+
+func New(database *sqlx.DB) domain.OrderDBRepository <span class="cov0" title="0">{
+        return &amp;repository{database: database}
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package ordercontroller
+
+import (
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/domain"
+)
+
+type controller struct {
+        usecase domain.OrderUseCase
+}
+
+func New(usecase domain.OrderUseCase) domain.OrderController <span class="cov0" title="0">{
+        return &amp;controller{
+                usecase: usecase,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package kafka
+
+import "github.com/segmentio/kafka-go"
+
+func Initialize(kafkaURL string) *kafka.Writer <span class="cov0" title="0">{
+        return &amp;kafka.Writer{
+                Addr:      kafka.TCP(kafkaURL),
+                Balancer:  &amp;kafka.CRC32Balancer{},
+                BatchSize: 1,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package orderqueuerepository
+
+import (
+        "context"
+        "encoding/json"
+
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/domain"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/dto"
+        "github.com/segmentio/kafka-go"
+)
+
+type repository struct {
+        kafkaWriter *kafka.Writer
+}
+
+// Send implements domain.OrderQueueRepository.
+func (repository *repository) Send(ctx context.Context, orderQueueOutput dto.OrderQueueOutput) error <span class="cov0" title="0">{
+        orderQueueOutputBytes, err := json.Marshal(&amp;orderQueueOutput)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">msg := kafka.Message{
+                Value: orderQueueOutputBytes,
+        }
+
+        repository.kafkaWriter.Topic = "OrderCreated"
+        err = repository.kafkaWriter.WriteMessages(ctx, msg)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+
+func New(kafkaWriter *kafka.Writer) domain.OrderQueueRepository <span class="cov0" title="0">{
+        return &amp;repository{kafkaWriter: kafkaWriter}
+}</span>
+
+// func Producer() {
+//         // my-cluster-kafka-bootstrap.kafka:9092
+//         kafkaWriter := getKafkaWriter("kafka:9092", "topic2")
+
+//         producerHandler(kafkaWriter)
+// }
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package domain
+
+import (
+        "context"
+        "net/http"
+
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/dto"
+)
+
+type Order struct {
+        ID        string
+        ProductID string
+        QTT       float64
+        Price     float64
+}
+
+type OrderQueueRepository interface {
+        Send(context.Context, dto.OrderQueueOutput) error
+}
+
+type OrderDBRepository interface {
+        Create(context.Context, dto.OrderInput) (*Order, error)
+}
+
+type OrderUseCase interface {
+        Create(context.Context, dto.OrderInput) (*Order, error)
+}
+
+type OrderController interface {
+        Create(http.ResponseWriter, *http.Request)
+}
+
+func (order *Order) CalculatePrice(productPrice float64) <span class="cov0" title="0">{
+        order.Price = order.QTT * productPrice
+}</span>
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package orderusecase
+
+import (
+        "context"
+
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/domain"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/dto"
+)
+
+type usecase struct {
+        orderDBRepostory     domain.OrderDBRepository
+        orderQueueRepository domain.OrderQueueRepository
+}
+
+// Create implements domain.OrderUseCase.
+func (usecase *usecase) Create(ctx context.Context, orderInput dto.OrderInput) (*domain.Order, error) <span class="cov0" title="0">{
+        orderCreated, err := usecase.orderDBRepostory.Create(ctx, orderInput)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">err = usecase.orderQueueRepository.Send(ctx, dto.OrderQueueOutput{
+                ProductID: orderCreated.ProductID,
+                QTT:       orderCreated.QTT,
+        })
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return orderCreated, nil</span>
+}
+
+func New(
+        orderDBRepostory domain.OrderDBRepository,
+        orderQueueRepository domain.OrderQueueRepository,
+) domain.OrderUseCase <span class="cov0" title="0">{
+        return &amp;usecase{
+                orderDBRepostory:     orderDBRepostory,
+                orderQueueRepository: orderQueueRepository,
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package di
+
+import (
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/http/rest/ordercontroller"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/http/rest/ordercontroller/database/orderdbrepository"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/adapter/kafka/orderqueuerepository"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/domain"
+        "github.com/booscaa/order-process-go/microservices/order-service/internal/core/usecase/orderusecase"
+        "github.com/jmoiron/sqlx"
+        "github.com/segmentio/kafka-go"
+)
+
+func ConfigOrderDIController(
+        database *sqlx.DB,
+        kafkaWriter *kafka.Writer,
+) domain.OrderController <span class="cov0" title="0">{
+        orderDBRepository := orderdbrepository.New(database)
+        orderQueueRepository := orderqueuerepository.New(kafkaWriter)
+        orderUseCase := orderusecase.New(orderDBRepository, orderQueueRepository)
+        orderController := ordercontroller.New(orderUseCase)
+
+        return orderController
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
